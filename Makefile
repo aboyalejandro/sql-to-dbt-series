@@ -1,14 +1,26 @@
 # Check if docker-compose is available, otherwise use docker compose
 DOCKER_COMPOSE := $(shell command -v docker-compose 2> /dev/null || echo "docker compose")
 
-.PHONY: build run database dbt duckdb clean stop
+.PHONY: extract build run database dbt duckdb clean stop
+
+# Extract synthetic data from zip
+extract:
+	@echo "Extracting synthetic data..."
+	@if [ -f synthetic_data/data.zip ]; then \
+		cd synthetic_data && unzip -o data.zip && \
+		echo "Data extracted successfully" && \
+		rm data.zip && \
+		echo "Zip file removed"; \
+	else \
+		echo "No data.zip found, skipping extraction"; \
+	fi
 
 # Build all containers
 build:
 	$(DOCKER_COMPOSE) build
 
-# Run complete pipeline (database → dbt)
-run:
+# Run complete pipeline (extract → database → dbt)
+run: extract
 	$(DOCKER_COMPOSE) up --remove-orphans
 
 # Run database service only

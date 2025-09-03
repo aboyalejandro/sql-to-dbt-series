@@ -16,7 +16,8 @@ models:
       - name: campaign_channel
         data_tests:
           - accepted_values:
-              values: ["social", "search", "display", "email", "referral"]
+              arguments:
+                values: ["social", "search", "display", "email", "referral"]
         description: "Campaign marketing channel"
       - name: total_impressions
         data_tests:
@@ -62,7 +63,8 @@ models:
       - name: conversion_type
         data_tests:
           - accepted_values:
-              values: ["purchase", "lead", "signup", "appointment", "download"]
+              arguments:
+                values: ["purchase", "lead", "signup", "appointment", "download"]
         description: "Type of conversion"
       - name: conversion_value
         data_tests:
@@ -122,17 +124,20 @@ models:
       - name: visitor_frequency_segment
         data_tests:
           - accepted_values:
-              values: ["single_session", "low_frequency", "medium_frequency", "high_frequency"]
+              arguments:
+                values: ["single_session", "low_frequency", "medium_frequency", "high_frequency"]
         description: "Visitor segmentation based on session frequency"
       - name: visitor_value_segment
         data_tests:
           - accepted_values:
-              values: ["non_converter", "low_value", "medium_value", "high_value"]
+              arguments:
+                values: ["non_converter", "low_value", "medium_value", "high_value"]
         description: "Visitor segmentation based on revenue generated"
       - name: visitor_engagement_segment
         data_tests:
           - accepted_values:
-              values: ["low_engagement", "medium_engagement", "high_engagement"]
+              arguments:
+                values: ["low_engagement", "medium_engagement", "high_engagement"]
         description: "Visitor segmentation based on average time on site"
       - name: session_conversion_rate_pct
         description: "Percentage of sessions that resulted in conversion"

@@ -16,7 +16,8 @@ models:
       - name: channel
         data_tests:
           - accepted_values:
-              values: ["social", "search", "display", "email", "referral"]
+              arguments:
+                values: ["social", "search", "display", "email", "referral"]
         description: Marketing channel
 
   - name: stg_ads

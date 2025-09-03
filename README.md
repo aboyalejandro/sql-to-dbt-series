@@ -61,11 +61,6 @@ dbt run --select stg_campaigns+ # Run all subsequent models after stg_campaigns
 make duckdb    # Open DuckDB CLI to query data
 ```
 
-### Cleanup
-```sh
-make clean     # Remove containers and generated files
-```
-
 ### Example DuckDB queries:
 ```sql
 -- Show all available tables
@@ -91,6 +86,11 @@ SELECT
 FROM main_marts.campaign_performance 
 ORDER BY total_revenue DESC 
 LIMIT 10;
+```
+
+### Cleanup
+```sh
+make clean     # Remove containers and generated files
 ```
 
 ### 😎 [Follow me on Linkedin](https://www.linkedin.com/in/alejandro-aboy/)

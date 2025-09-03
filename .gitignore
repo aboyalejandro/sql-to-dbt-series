@@ -8,8 +8,4 @@
 /reporting/service_account.json
 plan.md
 synthetic_data/*.json
-<<<<<<< HEAD
 database/*.duckdb
-=======
-database/*.duckdb
->>>>>>> 5ea5e4faa4eb451b7812c1aad08fdf536f9c5c07

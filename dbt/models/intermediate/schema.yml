@@ -20,7 +20,8 @@ models:
       - name: conversion_type
         data_tests:
           - accepted_values:
-              values: ["purchase", "lead", "signup", "appointment", "download"]
+              arguments:
+                values: ["purchase", "lead", "signup", "appointment", "download"]
         description: "Type of conversion event"
       - name: is_purchase
         data_tests:
@@ -50,7 +51,8 @@ models:
       - name: traffic_category
         data_tests:
           - accepted_values:
-              values: ["organic", "paid", "email", "social", "other"]
+              arguments:
+                values: ["organic", "paid", "email", "social", "other"]
         description: "Categorized traffic source"
       - name: is_engaged_session
         data_tests:
@@ -76,12 +78,14 @@ models:
       - name: event_type
         data_tests:
           - accepted_values:
-              values: ["page_view", "click", "purchase", "conversion", "lead", "signup", "call"]
+              arguments:
+                values: ["page_view", "click", "purchase", "conversion", "lead", "signup", "call"]
         description: "Type of journey event"
       - name: event_category
         data_tests:
           - accepted_values:
-              values: ["engagement", "conversion", "acquisition", "other"]
+              arguments:
+                values: ["engagement", "conversion", "acquisition", "other"]
         description: "Categorized event type"
       - name: is_conversion_event
         data_tests:
@@ -110,12 +114,14 @@ models:
       - name: ctr_performance
         data_tests:
           - accepted_values:
-              values: ["high", "medium", "low"]
+              arguments:
+                values: ["high", "medium", "low"]
         description: "CTR performance categorization"
       - name: cpa_vs_target
         data_tests:
           - accepted_values:
-              values: ["under_target", "on_target", "over_target"]
+              arguments:
+                values: ["under_target", "on_target", "over_target"]
         description: "CPA performance vs campaign target"
       - name: conversion_per_dollar
         description: "Conversions generated per dollar spent"

@@ -60,11 +60,11 @@ select
     current_timestamp as date_transformed
     
 from {{ ref('int_conversions') }} as conversions
-left join {{ ref('eph_first_touchpoints') }} as first_touchpoint
+left join {{ ref('int_first_touchpoints') }} as first_touchpoint
     on conversions.visitor_id = first_touchpoint.visitor_id
-left join {{ ref('eph_last_touchpoints') }} as last_touchpoint 
+left join {{ ref('int_last_touchpoints') }} as last_touchpoint 
     on conversions.visitor_id = last_touchpoint.visitor_id 
     and conversions.conversion_time = last_touchpoint.conversion_time
-left join {{ ref('eph_journey_stats') }} as journey_stats 
+left join {{ ref('int_journey_stats') }} as journey_stats 
     on conversions.visitor_id = journey_stats.visitor_id 
     and conversions.conversion_time = journey_stats.conversion_time

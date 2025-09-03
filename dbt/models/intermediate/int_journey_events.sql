@@ -3,6 +3,8 @@ select
     journey_events.event_id,
     journey_events.visitor_id,
     journey_events.session_id,
+    journey_events.campaign_id,
+    journey_events.ad_id,
     
     -- event details
     journey_events.timestamp::timestamp as event_timestamp,

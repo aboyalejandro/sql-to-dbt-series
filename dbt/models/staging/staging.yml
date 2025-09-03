@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: stg_campaigns
+    description: Marketing campaigns from synthetic data
+    columns:
+      - name: campaign_id
+        data_tests:
+          - unique
+          - not_null
+        description: Unique identifier for a campaign
+      - name: campaign_name
+        data_tests:
+          - not_null
+        description: Name of the campaign
+      - name: channel
+        data_tests:
+          - accepted_values:
+              values: ["social", "search", "display", "email", "referral"]
+        description: Marketing channel
+
+  - name: stg_ads
+    description: Ad performance data from synthetic data
+    columns:
+      - name: ad_id
+        data_tests:
+          - unique
+          - not_null
+        description: Unique identifier for an ad
+      - name: campaign_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_campaigns')
+              field: campaign_id
+        description: Campaign this ad belongs to
+
+  - name: stg_sessions
+    description: Website sessions from synthetic data
+    columns:
+      - name: session_id
+        data_tests:
+          - unique
+          - not_null
+        description: Unique identifier for a session
+      - name: visitor_id
+        data_tests:
+          - not_null
+        description: Unique identifier for a visitor
+      - name: campaign_id
+        data_tests:
+          - relationships:
+              to: ref('stg_campaigns')
+              field: campaign_id
+        description: Campaign associated with session
+
+  - name: stg_conversions
+    description: Conversion events from synthetic data
+    columns:
+      - name: conversion_id
+        data_tests:
+          - unique
+          - not_null
+        description: Unique identifier for a conversion
+      - name: session_id
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sessions')
+              field: session_id
+        description: Session where conversion occurred
+
+  - name: stg_journey_events
+    description: Customer journey events from synthetic data
+    columns:
+      - name: event_id
+        data_tests:
+          - unique
+          - not_null
+        description: Unique identifier for an event
+      - name: visitor_id
+        data_tests:
+          - not_null
+        description: Visitor who performed the event
+      - name: session_id
+        data_tests:
+          - relationships:
+              to: ref('stg_sessions')
+              field: session_id
+        description: Session where event occurred

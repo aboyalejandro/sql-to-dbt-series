@@ -1,0 +1,20 @@
+select
+    ad_id,
+    campaign_id,
+    ad_name,
+    creative_type,
+    platform,
+    placement,
+    impressions,
+    clicks,
+    ctr,
+    spend,
+    avg_cpc,
+    conversions,
+    cpa,
+    start_date,
+    end_date,
+    ad_status,
+    targeting,
+    last_updated
+from {{ source('synthetic_data', 'ads') }}

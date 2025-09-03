@@ -1,0 +1,15 @@
+sources: 
+  - name: synthetic_data
+    description: "Synthetic marketing and analytics data"
+    schema: main
+    tables:
+      - name: campaigns
+        description: "Marketing campaigns data"
+      - name: ads
+        description: "Ad performance data" 
+      - name: sessions
+        description: "Website sessions data"
+      - name: conversions
+        description: "Conversion tracking data"
+      - name: journey_events
+        description: "Customer journey events data"

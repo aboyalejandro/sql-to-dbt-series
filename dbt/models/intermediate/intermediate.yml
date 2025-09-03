@@ -1,0 +1,121 @@
+version: 2
+
+models:
+  - name: int_conversions
+    description: "Enriched conversions with full session, campaign, and ad context"
+    columns:
+      - name: conversion_id
+        data_tests:
+          - unique
+          - not_null
+        description: "Unique identifier for conversion event"
+      - name: visitor_id
+        data_tests:
+          - not_null
+        description: "Visitor who converted"
+      - name: session_id
+        data_tests:
+          - not_null
+        description: "Session where conversion occurred"
+      - name: conversion_type
+        data_tests:
+          - accepted_values:
+              values: ["purchase", "lead", "signup", "appointment", "download"]
+        description: "Type of conversion event"
+      - name: is_purchase
+        data_tests:
+          - not_null
+        description: "Flag indicating if conversion is a purchase"
+      - name: has_revenue
+        data_tests:
+          - not_null
+        description: "Flag indicating if conversion has revenue"
+      - name: roas
+        description: "Return on ad spend calculated from revenue and attributed spend"
+
+  - name: int_visitor_sessions
+    description: "Enriched sessions with campaign and ad attribution context"
+    columns:
+      - name: session_id
+        data_tests:
+          - unique
+          - not_null
+        description: "Unique identifier for session"
+      - name: visitor_id
+        data_tests:
+          - not_null
+        description: "Visitor who initiated the session"
+      - name: campaign_name
+        description: "Name of associated campaign"
+      - name: traffic_category
+        data_tests:
+          - accepted_values:
+              values: ["organic", "paid", "email", "social", "other"]
+        description: "Categorized traffic source"
+      - name: is_engaged_session
+        data_tests:
+          - not_null
+        description: "Flag for sessions longer than 3 minutes"
+      - name: is_single_page_session
+        data_tests:
+          - not_null
+        description: "Flag for single page view sessions"
+
+  - name: int_journey_events
+    description: "Complete customer journey events with full attribution context"
+    columns:
+      - name: event_id
+        data_tests:
+          - unique
+          - not_null
+        description: "Unique identifier for journey event"
+      - name: visitor_id
+        data_tests:
+          - not_null
+        description: "Visitor who performed the event"
+      - name: event_type
+        data_tests:
+          - accepted_values:
+              values: ["page_view", "click", "purchase", "conversion", "lead", "signup", "call"]
+        description: "Type of journey event"
+      - name: event_category
+        data_tests:
+          - accepted_values:
+              values: ["engagement", "conversion", "acquisition", "other"]
+        description: "Categorized event type"
+      - name: is_conversion_event
+        data_tests:
+          - not_null
+        description: "Flag indicating if event is a conversion"
+      - name: is_first_touchpoint
+        data_tests:
+          - not_null
+        description: "Flag indicating if this is the first touchpoint in journey"
+
+  - name: int_campaign_ads
+    description: "Campaign and ad relationship foundation with performance metrics"
+    columns:
+      - name: campaign_id
+        data_tests:
+          - not_null
+        description: "Campaign identifier"
+      - name: ad_id
+        data_tests:
+          - not_null
+        description: "Ad identifier"
+      - name: is_both_active
+        data_tests:
+          - not_null
+        description: "Flag indicating both campaign and ad are active"
+      - name: ctr_performance
+        data_tests:
+          - accepted_values:
+              values: ["high", "medium", "low"]
+        description: "CTR performance categorization"
+      - name: cpa_vs_target
+        data_tests:
+          - accepted_values:
+              values: ["under_target", "on_target", "over_target"]
+        description: "CPA performance vs campaign target"
+      - name: conversion_per_dollar
+        description: "Conversions generated per dollar spent"

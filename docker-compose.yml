@@ -1,0 +1,30 @@
+services:
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    volumes:
+      - ./synthetic_data:/synthetic_data:ro
+      - ./database:/database
+    environment:
+      - DUCKDB_PATH=/database/sql_to_dbt_guide.duckdb
+    container_name: dbt_database_processor
+    command: python sources.py
+
+  dbt:
+    build:
+      context: ./dbt
+      dockerfile: Dockerfile
+    volumes:
+      - ./database:/database
+      - ./dbt:/dbt
+    environment:
+      - DUCKDB_PATH=/database/sql_to_dbt_guide.duckdb
+    container_name: dbt_runner
+    depends_on:
+      database:
+        condition: service_completed_successfully
+    command: sh -c "dbt deps && dbt build"
+
+volumes:
+  shared-data:

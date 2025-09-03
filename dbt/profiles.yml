@@ -1,0 +1,6 @@
+sql_to_dbt_guide:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', '/database/sql_to_dbt_guide.duckdb') }}"

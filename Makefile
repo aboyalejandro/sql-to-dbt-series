@@ -8,9 +8,7 @@ extract:
 	@echo "Extracting synthetic data..."
 	@if [ -f synthetic_data/data.zip ]; then \
 		cd synthetic_data && unzip -o data.zip && \
-		echo "Data extracted successfully" && \
-		rm data.zip && \
-		echo "Zip file removed"; \
+		echo "Data extracted successfully (zip file preserved)"; \
 	else \
 		echo "No data.zip found, skipping extraction"; \
 	fi
@@ -45,4 +43,5 @@ clean:
 	@echo "Removing all generated files..."
 	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
 	rm -f database/*.duckdb
+	rm -f synthetic_data/*.json
 	rm -f .DS_Store

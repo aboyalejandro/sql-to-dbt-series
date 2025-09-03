@@ -7,3 +7,5 @@
 /dbt/package-lock.yml
 /reporting/service_account.json
 plan.md
+synthetic_data/*.json
+database/*.duckdb

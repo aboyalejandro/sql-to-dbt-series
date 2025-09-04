@@ -1,0 +1,52 @@
+version: 2
+
+snapshots:
+  - name: snap_campaign_performance
+    description: >
+      Daily snapshot of campaign performance metrics to track trends over time.
+      Captures changes in ROAS, conversion rates, and budget utilization.
+      Uses timestamp strategy based on date_transformed column.
+    columns:
+      - name: campaign_id
+        description: Unique identifier for campaign
+        tests:
+          - not_null
+      - name: roas_tier
+        description: Performance tier based on return on ad spend
+      - name: conversion_tier  
+        description: Performance tier based on conversion rate
+      - name: budget_utilization_pct
+        description: Percentage of budget utilized
+      - name: cpa_performance
+        description: Actual CPA vs target CPA comparison
+      - name: dbt_valid_from
+        description: When this version of the record became valid
+      - name: dbt_valid_to
+        description: When this version of the record became invalid (null if current)
+
+  - name: snap_visitor_segments
+    description: >
+      Tracks visitor segmentation evolution as engagement and purchase behavior changes.
+      Monitors segment transitions from prospect to VIP customer.
+      Uses check strategy to detect changes in key segment columns.
+    columns:
+      - name: visitor_id
+        description: Unique identifier for visitor
+        tests:
+          - not_null
+      - name: visitor_frequency_segment
+        description: Segmentation based on session frequency
+      - name: visitor_value_segment
+        description: Segmentation based on total revenue
+      - name: visitor_engagement_segment
+        description: Segmentation based on engagement metrics
+      - name: lifecycle_stage
+        description: Customer lifecycle classification
+      - name: journey_stage
+        description: Visitor journey progression stage
+      - name: activity_status
+        description: Current activity level risk indicator
+      - name: dbt_valid_from
+        description: When this version of the record became valid
+      - name: dbt_valid_to
+        description: When this version of the record became invalid (null if current)

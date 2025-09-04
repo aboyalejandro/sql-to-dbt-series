@@ -8,6 +8,9 @@ A portable data-stack with:
 - dbt for transformations (staging → intermediate → marts)
 - Sequential Docker Compose workflow
 - Complete marketing analytics models (attribution, campaign performance, visitor journey)
+- **Advanced data contracts** with business logic constraints
+- **Reusable macros** for touchpoint attribution and performance classification
+- **Snapshots** for tracking campaign performance and visitor segment evolution
 
 ## 🙋🏻‍♂️ Pre-requisites
 - Docker Desktop
@@ -54,6 +57,10 @@ dbt run --select stg_campaigns
 dbt run --select +stg_campaigns # Run all previous models before stg_campaigns
 dbt run --select stg_campaigns+ # Run all subsequent models after stg_campaigns
 
+# Run snapshots for historical tracking:
+dbt snapshot                    # Run all snapshots
+dbt snapshot -s snap_campaign_performance  # Run specific snapshot
+
 ```
 
 ### 📊 Test Categories & Execution
@@ -90,6 +97,60 @@ SELECT
 FROM main_marts.campaign_performance 
 ORDER BY total_revenue DESC 
 LIMIT 10;
+
+-- Query snapshot history
+SELECT campaign_name, roas_tier, dbt_valid_from, dbt_valid_to
+FROM snapshots.snap_campaign_performance
+WHERE campaign_id = 'some-campaign-id'
+ORDER BY dbt_valid_from;
+```
+
+## 🏗️ Advanced Features
+
+### Data Contracts with Business Logic Constraints
+- **Primary/Foreign Key constraints** for referential integrity
+- **Check constraints** for business rules (budget > 1000, ROI >= -1, CTR between 0-1)
+- **Named constraints** for better error messages
+- **Automatic constraint validation** during model compilation
+
+### Reusable Macros
+- **`get_touchpoint_attribution()`** - Flexible first/last touch attribution logic
+- **`classify_performance_tier()`** - Standardized tier classification (high/medium/low)
+- **`classify_vs_target()`** - Compare actual vs target metrics
+- **`safe_divide()`** - Division with null handling to prevent errors
+- **`calculate_percentage_share()`** - Standardized percentage calculations
+
+**Example macro usage:**
+```sql
+-- Performance tier classification
+{{ classify_performance_tier(
+    column_name='ads.ctr',
+    tier_name='ctr_performance', 
+    high_threshold=0.02,
+    medium_threshold=0.01
+) }}
+
+-- Safe division 
+{{ safe_divide('conversions.revenue', 'conversions.attributed_spend') }} as roas
+```
+
+### Historical Snapshots
+- **`snap_campaign_performance`** - Daily campaign metrics evolution (ROAS, conversion rates, budget utilization)
+- **`snap_visitor_segments`** - Visitor segment transitions (prospect → customer → VIP)
+
+**Query snapshot evolution:**
+```sql
+-- Campaign performance trends
+SELECT campaign_name, roas_tier, budget_utilization_pct, dbt_valid_from
+FROM snapshots.snap_campaign_performance  
+WHERE campaign_id = 'campaign-123'
+ORDER BY dbt_valid_from;
+
+-- Visitor lifecycle progression  
+SELECT visitor_frequency_segment, visitor_value_segment, lifecycle_stage, dbt_valid_from
+FROM snapshots.snap_visitor_segments
+WHERE visitor_id = 'visitor-456'
+ORDER BY dbt_valid_from;
 ```
 
 ### Cleanup

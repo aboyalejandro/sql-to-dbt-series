@@ -29,9 +29,17 @@ Advanced tests from the dbt-expectations package: `dbt test --select package:met
 
 Built into model compilation: `dbt run --select staging  # Contract validation happens during model creation`
 
-- Schema enforcement (column names, data types)
-- Constraint validation (not_null, etc.)
-- Fails fast if contract violations occur
+- **Schema enforcement** (column names, data types)
+- **Basic constraints** (not_null, unique, primary_key)
+- **Business logic constraints** (check constraints with custom SQL)
+- **Named constraints** for better error messages
+- **Fails fast** if contract violations occur
+
+**Advanced constraint examples:**
+- `budget > 0` and `budget >= 1000` (minimum budget threshold)
+- `roi >= -1` (reasonable ROI range)
+- `ctr >= 0 AND ctr <= 1` (valid percentage range)
+- `conversion_value >= 0` (non-negative financial values)
 
 ## ⚡ Test Execution Flow
 
@@ -65,7 +73,18 @@ dbt test --select tag:data_quality
 | dbt build | ✅              | ✅             | ✅              | ✅                |
 | make run  | ✅              | ✅             | ✅              | ✅                |
 
-Your comprehensive test suite provides 3-layer protection:
-1. Contracts prevent bad data from entering models
-2. Custom tests validate business logic
-3. Expectations provide advanced statistical validation
+Your comprehensive test suite provides 4-layer protection:
+1. **Data contracts** prevent bad data from entering models with real-time constraint validation
+2. **Custom generic tests** provide reusable validation logic across models  
+3. **Singular tests** validate complex business logic and cross-table integrity
+4. **dbt-expectations** provide advanced statistical and pattern validation
+
+**Constraint vs Test Comparison:**
+
+| Feature | Constraints | Tests |
+|---------|-------------|-------|
+| **Execution** | During model creation | After model creation |
+| **Performance** | Database-level (fast) | Query-based (slower) |
+| **Failure** | Stops model creation | Logs warnings/errors |
+| **Use Case** | Data integrity rules | Business logic validation |
+| **Examples** | `budget > 0`, `not_null` | Custom calculations, referential integrity |

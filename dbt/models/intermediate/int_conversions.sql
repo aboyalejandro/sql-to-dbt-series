@@ -50,10 +50,7 @@ select
         else false 
     end as has_revenue,
     
-    case 
-        when conversions.attributed_spend > 0 then conversions.revenue / conversions.attributed_spend 
-        else null 
-    end as roas,
+    {{ safe_divide('conversions.revenue', 'conversions.attributed_spend') }} as roas,
     
     current_timestamp as date_transformed
     

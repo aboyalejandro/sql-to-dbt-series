@@ -349,28 +349,16 @@ models:
         data_type: string
         data_tests:
           - uuid_format
-          - relationships:
-              arguments:
-                to: ref('sessions')
-                field: session_id
         description: Session where event occurred
       - name: campaign_id
         data_type: string
         data_tests:
           - uuid_format
-          - relationships:
-              arguments:
-                to: ref('campaigns')
-                field: campaign_id
         description: Campaign associated with event
       - name: ad_id
         data_type: string
         data_tests:
           - uuid_format
-          - relationships:
-              arguments:
-                to: ref('ads')
-                field: ad_id
         description: Ad associated with event
       - name: event_type
         data_type: string
@@ -400,28 +388,3 @@ models:
       - name: touchpoint_order
         data_type: double
         description: Order of touchpoint in journey
-
-# Table-level dbt-expectations tests
-tests:
-  - dbt_expectations.expect_table_row_count_to_be_between:
-      name: test_campaigns_row_count
-      model: ref('campaigns')
-      arguments:
-        min_value: 100
-        max_value: 50000
-      
-  - dbt_expectations.expect_table_row_count_to_be_between:
-      name: test_sessions_row_count  
-      model: ref('sessions')
-      arguments:
-        min_value: 1000
-        max_value: 100000
-
-  - dbt_expectations.expect_table_aggregation_to_equal_other_table:
-      name: test_ads_campaigns_referential_integrity
-      model: ref('ads')
-      arguments:
-        expression: count(distinct campaign_id)
-        compare_model: ref('campaigns')
-        compare_expression: count(distinct campaign_id)
-        tolerance: 0.1

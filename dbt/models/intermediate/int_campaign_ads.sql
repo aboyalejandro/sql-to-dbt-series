@@ -57,28 +57,24 @@ select
         else false 
     end as is_ad_current,
     
-    case 
-        when ads.ctr > 0.02 then 'high'
-        when ads.ctr > 0.01 then 'medium'
-        else 'low'
-    end as ctr_performance,
+    -- performance tiers using macros
+    {{ classify_performance_tier(
+        column_name='ads.ctr',
+        tier_name='ctr_performance',
+        high_threshold=0.02,
+        medium_threshold=0.01
+    ) }},
     
-    case 
-        when ads.cpa < campaigns.target_cpa then 'under_target'
-        when ads.cpa = campaigns.target_cpa then 'on_target'  
-        else 'over_target'
-    end as cpa_vs_target,
+    {{ classify_vs_target(
+        actual_column='ads.cpa',
+        target_column='campaigns.target_cpa',
+        comparison_name='cpa_vs_target'
+    ) }},
     
-    -- calculated metrics
-    case 
-        when ads.spend > 0 then ads.conversions / ads.spend 
-        else null 
-    end as conversion_per_dollar,
+    -- calculated metrics using macros
+    {{ safe_divide('ads.conversions', 'ads.spend') }} as conversion_per_dollar,
     
-    case 
-        when campaign_budget > 0 then (ads.spend / campaign_budget) * 100 
-        else null 
-    end as ad_budget_share_pct,
+    {{ calculate_percentage_share('ads.spend', 'campaign_budget', 'ad_budget_share_pct') }},
     
     current_timestamp as date_transformed
     

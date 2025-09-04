@@ -5,51 +5,132 @@ models:
     description: Marketing campaigns from synthetic data
     columns:
       - name: campaign_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - unique
-          - not_null
+          - uuid_format
+          - dbt_expectations.expect_column_values_to_match_regex:
+              arguments:
+                regex: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
         description: Unique identifier for a campaign
       - name: campaign_name
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - not_null
         description: Name of the campaign
       - name: channel
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - accepted_values:
               arguments:
                 values: ["social", "search", "display", "email", "referral"]
         description: Marketing channel
+      - name: start_date
+        data_type: date
+        constraints:
+          - type: not_null
+        data_tests:
+          - not_null
+          - date_range:
+              min_date: '2020-01-01'
+              max_date: '2030-12-31'
+        description: Campaign start date
+      - name: end_date
+        data_type: date
+        data_tests:
+          - date_range:
+              min_date: '2020-01-01'
+              max_date: '2030-12-31'
+        description: Campaign end date
+      - name: budget
+        data_type: double
+        constraints:
+          - type: not_null
+        data_tests:
+          - not_null
+          - positive_numeric
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1000
+                max_value: 10000000
+        description: Campaign budget amount
 
   - name: stg_ads
     description: Ad performance data from synthetic data
     columns:
       - name: ad_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - unique
-          - not_null
+          - uuid_format
         description: Unique identifier for an ad
       - name: campaign_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - not_null
+          - uuid_format
           - relationships:
               to: ref('stg_campaigns')
               field: campaign_id
         description: Campaign this ad belongs to
+      - name: impressions
+        data_type: double
+        data_tests:
+          - positive_numeric
+        description: Number of ad impressions
+      - name: clicks
+        data_type: double
+        data_tests:
+          - positive_numeric
+        description: Number of ad clicks
+      - name: ctr
+        data_type: double
+        data_tests:
+          - percentage_bounds
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 1
+        description: Click-through rate
+      - name: spend
+        data_type: double
+        data_tests:
+          - positive_numeric
+        description: Ad spend amount
 
   - name: stg_sessions
     description: Website sessions from synthetic data
     columns:
       - name: session_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - unique
-          - not_null
+          - uuid_format
         description: Unique identifier for a session
       - name: visitor_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - not_null
+          - uuid_format
         description: Unique identifier for a visitor
       - name: campaign_id
+        data_type: string
         data_tests:
+          - uuid_format
           - relationships:
               to: ref('stg_campaigns')
               field: campaign_id
@@ -59,33 +140,120 @@ models:
     description: Conversion events from synthetic data
     columns:
       - name: conversion_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - unique
-          - not_null
+          - uuid_format
         description: Unique identifier for a conversion
       - name: session_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - not_null
+          - uuid_format
           - relationships:
               to: ref('stg_sessions')
               field: session_id
         description: Session where conversion occurred
+      - name: conversion_value
+        data_type: double
+        data_tests:
+          - positive_numeric
+        description: Monetary value of the conversion
+      - name: conversion_type
+        data_type: string
+        constraints:
+          - type: not_null
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["purchase", "lead", "signup", "appointment", "download"]
+        description: Type of conversion event
 
   - name: stg_journey_events
     description: Customer journey events from synthetic data
     columns:
       - name: event_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - unique
-          - not_null
+          - uuid_format
         description: Unique identifier for an event
       - name: visitor_id
+        data_type: string
+        constraints:
+          - type: not_null
         data_tests:
           - not_null
+          - uuid_format
         description: Visitor who performed the event
       - name: session_id
+        data_type: string
         data_tests:
+          - uuid_format
           - relationships:
               to: ref('stg_sessions')
               field: session_id
         description: Session where event occurred
+      - name: campaign_id
+        data_type: string
+        data_tests:
+          - uuid_format
+          - relationships:
+              to: ref('stg_campaigns')
+              field: campaign_id
+        description: Campaign associated with event
+      - name: ad_id
+        data_type: string
+        data_tests:
+          - uuid_format
+          - relationships:
+              to: ref('stg_ads')
+              field: ad_id
+        description: Ad associated with event
+      - name: event_type
+        data_type: string
+        constraints:
+          - type: not_null
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["page_view", "click", "purchase", "conversion", "lead", "signup", "call"]
+        description: Type of journey event
+      - name: timestamp
+        data_type: timestamp
+        constraints:
+          - type: not_null
+        data_tests:
+          - not_null
+        description: Event timestamp
+
+# Table-level dbt-expectations tests
+tests:
+  - dbt_expectations.expect_table_row_count_to_be_between:
+      name: test_campaigns_row_count
+      model: ref('stg_campaigns')
+      arguments:
+        min_value: 100
+        max_value: 50000
+      
+  - dbt_expectations.expect_table_row_count_to_be_between:
+      name: test_sessions_row_count  
+      model: ref('stg_sessions')
+      arguments:
+        min_value: 1000
+        max_value: 100000
+
+  - dbt_expectations.expect_table_aggregation_to_equal_other_table:
+      name: test_ads_campaigns_referential_integrity
+      model: ref('stg_ads')
+      arguments:
+        expression: count(distinct campaign_id)
+        compare_model: ref('stg_campaigns')
+        compare_expression: count(distinct campaign_id)
+        tolerance: 0.1

@@ -1,6 +1,6 @@
 # 🚀 SQL to dbt Starter Pack Project
 
-This repo demonstrates a portable data stack with synthetic data processing using DuckDB and dbt transformations.
+This repo demonstrates a portable data stack with synthetic data (https://syntheticdatagen.xyz/) processing using DuckDB and dbt transformations.
 
 A portable data-stack with:
 - Synthetic JSON marketing data processing
@@ -55,6 +55,10 @@ dbt run --select +stg_campaigns # Run all previous models before stg_campaigns
 dbt run --select stg_campaigns+ # Run all subsequent models after stg_campaigns
 
 ```
+
+### 📊 Test Categories & Execution
+
+See more on generic, singular, contracts and great expectations on this [README](dbt/tests/README.md)
 
 ### Query Data
 ```sh

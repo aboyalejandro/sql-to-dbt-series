@@ -15,8 +15,10 @@ macro-paths: ["macros"]
 models:
   sql_to_dbt_guide:
     staging:
-      +materialized: view
+      +materialized: table
       +schema: staging
+      +contract:
+        enforced: true
     intermediate:
       +materialized: view
       +schema: intermediate

@@ -24,7 +24,24 @@ services:
     depends_on:
       database:
         condition: service_completed_successfully
-    command: sh -c "dbt deps && dbt build"
+    command: sh -c "dbt deps && dbt run"
+
+  dbt-docs:
+    build:
+      context: ./dbt
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./database:/database
+      - ./dbt:/dbt
+    environment:
+      - DUCKDB_PATH=/database/sql_to_dbt_guide.duckdb
+    container_name: dbt_docs_server
+    depends_on:
+      dbt:
+        condition: service_completed_successfully
+    command: sh -c "dbt docs generate && dbt docs serve --host 0.0.0.0 --port 9000"
 
 volumes:
   shared-data:

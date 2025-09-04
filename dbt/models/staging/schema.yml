@@ -38,15 +38,17 @@ models:
         data_tests:
           - not_null
           - date_range:
-              min_date: '2020-01-01'
-              max_date: '2030-12-31'
+              arguments:
+                min_date: '2020-01-01'
+                max_date: '2030-12-31'
         description: Campaign start date
       - name: end_date
         data_type: date
         data_tests:
           - date_range:
-              min_date: '2020-01-01'
-              max_date: '2030-12-31'
+              arguments:
+                min_date: '2020-01-01'
+                max_date: '2030-12-31'
         description: Campaign end date
       - name: budget
         data_type: double
@@ -80,8 +82,9 @@ models:
           - not_null
           - uuid_format
           - relationships:
-              to: ref('stg_campaigns')
-              field: campaign_id
+              arguments:
+                to: ref('stg_campaigns')
+                field: campaign_id
         description: Campaign this ad belongs to
       - name: impressions
         data_type: double
@@ -132,8 +135,9 @@ models:
         data_tests:
           - uuid_format
           - relationships:
-              to: ref('stg_campaigns')
-              field: campaign_id
+              arguments:
+                to: ref('stg_campaigns')
+                field: campaign_id
         description: Campaign associated with session
 
   - name: stg_conversions
@@ -155,8 +159,9 @@ models:
           - not_null
           - uuid_format
           - relationships:
-              to: ref('stg_sessions')
-              field: session_id
+              arguments:
+                to: ref('stg_sessions')
+                field: session_id
         description: Session where conversion occurred
       - name: conversion_value
         data_type: double
@@ -197,24 +202,27 @@ models:
         data_tests:
           - uuid_format
           - relationships:
-              to: ref('stg_sessions')
-              field: session_id
+              arguments:
+                to: ref('stg_sessions')
+                field: session_id
         description: Session where event occurred
       - name: campaign_id
         data_type: string
         data_tests:
           - uuid_format
           - relationships:
-              to: ref('stg_campaigns')
-              field: campaign_id
+              arguments:
+                to: ref('stg_campaigns')
+                field: campaign_id
         description: Campaign associated with event
       - name: ad_id
         data_type: string
         data_tests:
           - uuid_format
           - relationships:
-              to: ref('stg_ads')
-              field: ad_id
+              arguments:
+                to: ref('stg_ads')
+                field: ad_id
         description: Ad associated with event
       - name: event_type
         data_type: string

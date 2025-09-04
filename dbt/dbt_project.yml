@@ -35,3 +35,6 @@ clean-targets:
     - "logs"
 
 require-dbt-version: [">=1.0.0", "<2.0.0"]
+
+flags:
+  require_generic_test_arguments_property: true

@@ -2,7 +2,10 @@ version: 2
 
 models:
   - name: campaign_performance
-    description: "Campaign-level performance aggregation with spend, conversions, and ROAS metrics"
+    description: >
+      Executive-ready campaign performance dashboard aggregated for marketing leadership decision-making.
+      Provides comprehensive campaign KPIs including ROAS, conversion rates, cost efficiency, and budget utilization.
+      Enables campaign optimization decisions, budget reallocation strategies, and channel performance comparisons for CMO and marketing managers.
     columns:
       - name: campaign_id
         data_tests:
@@ -49,7 +52,10 @@ models:
         description: "Average revenue generated per visitor"
 
   - name: conversion_attribution
-    description: "Multi-touch attribution analysis for conversions with first/last touch data"
+    description: >
+      Executive-ready multi-touch attribution analysis enabling data-driven marketing investment decisions.
+      Combines first-touch and last-touch attribution with comprehensive conversion journey intelligence.
+      Enables marketing budget optimization, channel attribution analysis, and ROI-driven media mix modeling for performance marketing teams.
     columns:
       - name: conversion_id
         data_tests:
@@ -92,7 +98,10 @@ models:
         description: "Flag indicating if conversion attributed to last touch"
 
   - name: visitor_journey
-    description: "Visitor-level journey aggregation with engagement metrics and segmentation"
+    description: >
+      Executive-ready visitor lifecycle intelligence with behavioral segmentation and journey analytics.
+      Provides visitor-level KPIs including lifetime value, engagement patterns, frequency segmentation, and cross-channel touchpoint analysis.
+      Enables customer retention strategies, personalization targeting, and customer lifetime value optimization for CRM and marketing automation teams.
     columns:
       - name: visitor_id
         data_tests:

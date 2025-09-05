@@ -2,7 +2,10 @@ version: 2
 
 models:
   - name: int_conversions
-    description: "Enriched conversions with full session, campaign, and ad context"
+    description: >
+      Business-ready conversions enriched with complete attribution context and calculated performance metrics.
+      Combines conversion events with session, campaign, and ad details. Includes ROAS calculations using safe_divide() macro, 
+      purchase/revenue flags, and provides comprehensive conversion intelligence for attribution analysis and ROI optimization.
     columns:
       - name: conversion_id
         data_tests:
@@ -35,7 +38,10 @@ models:
         description: "Return on ad spend calculated from revenue and attributed spend"
 
   - name: int_visitor_sessions
-    description: "Enriched sessions with campaign and ad attribution context"
+    description: >
+      Business-ready visitor sessions enhanced with marketing attribution and engagement classification.
+      Enriches sessions with campaign/ad context, traffic categorization (organic/paid/social), and behavioral flags 
+      (engaged sessions, single-page visits). Provides session-level intelligence for visitor journey analysis and conversion funnel optimization.
     columns:
       - name: session_id
         data_tests:
@@ -64,7 +70,10 @@ models:
         description: "Flag for single page view sessions"
 
   - name: int_journey_events
-    description: "Complete customer journey events with full attribution context"
+    description: >
+      Business-ready customer journey touchpoints with comprehensive attribution and event classification.
+      Enriches journey events with complete marketing context (campaign, ad, channel), event categorization 
+      (acquisition/engagement/conversion), and touchpoint sequencing. Provides granular journey intelligence for multi-touch attribution and conversion path analysis.
     columns:
       - name: event_id
         data_tests:
@@ -97,7 +106,10 @@ models:
         description: "Flag indicating if this is the first touchpoint in journey"
 
   - name: int_campaign_ads
-    description: "Campaign and ad relationship foundation with performance metrics"
+    description: >
+      Business-ready campaign-ad relationships with performance tiers, budget utilization tracking, and macro-based calculations.
+      Combines campaign strategy with ad execution data. Includes CTR classification (high/medium/low) using performance_tier macro, 
+      CPA vs target comparisons, conversion efficiency metrics, and budget allocation analysis for campaign optimization decisions.
     columns:
       - name: campaign_id
         data_tests:

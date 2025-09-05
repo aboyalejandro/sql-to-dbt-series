@@ -2,7 +2,10 @@ version: 2
 
 models:
   - name: stg_campaigns
-    description: Marketing campaigns from synthetic data
+    description: >
+      Clean and standardized marketing campaigns with date formatting, budget validation, and status normalization. 
+      Features primary key constraints, business logic validations (budget ≥ $1000, ROI ≥ -100%), 
+      and provides the foundation for campaign performance analysis and attribution modeling.
     columns:
       - name: campaign_id
         data_type: string
@@ -88,7 +91,10 @@ models:
         description: Campaign budget amount
 
   - name: stg_ads
-    description: Ad performance data from synthetic data
+    description: >
+      Clean and standardized ad performance data with metric validation and creative categorization.
+      Features primary key constraints, performance metric validations (CTR 0-100%, spend ≥ 0), 
+      and provides detailed ad-level metrics for campaign optimization and creative performance analysis.
     columns:
       - name: ad_id
         data_type: string
@@ -183,7 +189,10 @@ models:
         description: Ad targeting criteria
 
   - name: stg_sessions
-    description: Website sessions from synthetic data
+    description: >
+      Clean and standardized website sessions with visitor identification and engagement metrics.
+      Features primary key constraints, behavioral data validation, and provides session-level 
+      foundation for visitor journey analysis, attribution modeling, and conversion funnel optimization.
     columns:
       - name: session_id
         data_type: string
@@ -243,7 +252,10 @@ models:
         description: Whether session resulted in conversion
 
   - name: stg_conversions
-    description: Conversion events from synthetic data
+    description: >
+      Clean and standardized conversion events with revenue validation and attribution tracking.
+      Features primary key constraints, financial data validation (revenue ≥ 0, CPA ≥ 0), 
+      and provides conversion-level foundation for ROI analysis, attribution modeling, and campaign effectiveness measurement.
     columns:
       - name: conversion_id
         data_type: string
@@ -326,7 +338,10 @@ models:
         description: Order identifier
 
   - name: stg_journey_events
-    description: Customer journey events from synthetic data
+    description: >
+      Clean and standardized customer journey touchpoints with event categorization and timing validation.
+      Features primary key constraints, event type validation, and provides granular touchpoint data 
+      for multi-touch attribution, customer journey mapping, and conversion path analysis.
     columns:
       - name: event_id
         data_type: string

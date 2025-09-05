@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: eph_first_touchpoints
+    description: >
+      Reusable first-touch attribution component using get_touchpoint_attribution() macro.
+      Identifies the initial marketing touchpoint for each visitor's journey. Provides foundation data
+      for first-touch attribution models, customer acquisition analysis, and top-of-funnel channel performance measurement.
+
+  - name: eph_last_touchpoints  
+    description: >
+      Reusable last-touch attribution component using get_touchpoint_attribution() macro for conversion events.
+      Identifies the final marketing touchpoint before each conversion. Provides foundation data  
+      for last-touch attribution models, conversion optimization analysis, and bottom-of-funnel channel effectiveness measurement.
+
+  - name: eph_journey_stats
+    description: >
+      Reusable journey statistics component calculating visitor-level engagement and interaction metrics.
+      Aggregates touchpoint counts, journey duration, and interaction patterns. Provides foundation data
+      for customer lifecycle analysis, engagement scoring, and journey complexity assessment.

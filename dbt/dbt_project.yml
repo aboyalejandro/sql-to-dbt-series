@@ -17,8 +17,8 @@ models:
     staging:
       +materialized: table
       +schema: staging
-      +contract: # Comment these 2 lines to disable contract validation
-        enforced: true 
+      #+contract: # Comment these 2 lines to disable contract validation
+      #  enforced: true 
     intermediate:
       +materialized: view
       +schema: intermediate

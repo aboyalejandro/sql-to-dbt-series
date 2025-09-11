@@ -13,10 +13,10 @@ Your custom tests in /tests/generic/: `dbt test --select test_type:generic`
 
 Your custom tests in /tests/singular/: `dbt test --select test_type:singular`
 
-- test_campaign_date_logic.sql - Validates start_date ≤ end_date
-- test_session_temporal_integrity.sql - Validates session timing
-- test_marketing_metrics_calculation.sql - Validates CTR calculations
-- test_referential_integrity.sql - Cross-table foreign key checks
+- `test_campaign_date_logic.sql` - Validates start_date ≤ end_date
+- `test_session_temporal_integrity.sql` - Validates session timing
+- `test_marketing_metrics_calculation.sql` - Validates CTR calculations
+- `test_referential_integrity.sql` - Cross-table foreign key checks
 
 ### dbt-expectations Tests (Great Expectations)
 
@@ -53,16 +53,16 @@ During dbt build:
 Test Selection Examples:
 
 ### Run specific test types
-dbt test --select test_type:generic
-dbt test --select test_type:singular
-dbt test --select test_name:uuid_format
+`dbt test --select test_type:generic`
+`dbt test --select test_type:singular`
+`dbt test --select test_name:uuid_format`
 
 ### Run tests for specific models
-dbt test --select stg_campaigns
-dbt test --select staging
+`dbt test --select stg_campaigns`
+`dbt test --select staging`
 
 ### Run tests with specific tags
-dbt test --select tag:data_quality
+`dbt test --select tag:data_quality`
 
 🎯 When Tests Execute:
 

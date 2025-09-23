@@ -43,5 +43,22 @@ services:
         condition: service_completed_successfully
     command: sh -c "dbt docs generate && dbt docs serve --host 0.0.0.0 --port 9000"
 
+  dbt-colibri:
+    build:
+      context: ./dbt
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./database:/database
+      - ./dbt:/dbt
+    environment:
+      - DUCKDB_PATH=/database/sql_to_dbt_guide.duckdb
+    container_name: dbt_colibri_server
+    depends_on:
+      dbt:
+        condition: service_completed_successfully
+    command: sh -c "dbt compile && dbt docs generate && colibri generate && echo '🔗 dbt-colibri lineage dashboard available at http://localhost:8080' && python -m http.server 8080 --directory dist"
+
 volumes:
   shared-data:

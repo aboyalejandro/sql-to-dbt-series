@@ -1,7 +1,7 @@
 # Check if docker-compose is available, otherwise use docker compose
 DOCKER_COMPOSE := $(shell command -v docker-compose 2> /dev/null || echo "docker compose")
 
-.PHONY: extract build run database dbt dbt-docs duckdb clean stop
+.PHONY: extract build run database dbt dbt-docs dbt-colibri duckdb clean stop
 
 # Extract synthetic data from zip
 extract:
@@ -32,6 +32,10 @@ dbt:
 # Start dbt docs server
 dbt-docs:
 	$(DOCKER_COMPOSE) up dbt-docs --remove-orphans
+
+# Start dbt colibri lineage server
+dbt-colibri:
+	$(DOCKER_COMPOSE) up dbt-colibri --remove-orphans
 
 # Open DuckDB CLI to query data
 duckdb:

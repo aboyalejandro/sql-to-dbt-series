@@ -9,3 +9,4 @@
 plan.md
 synthetic_data/*.json
 database/*.duckdb
+*.log

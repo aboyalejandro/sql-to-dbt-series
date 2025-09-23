@@ -11,6 +11,7 @@ A portable data-stack with:
 - **Advanced data contracts** with business logic constraints
 - **Reusable macros** for touchpoint attribution and performance classification
 - **Snapshots** for tracking campaign performance and visitor segment evolution
+- **Column-level lineage visualization** with dbt-colibri
 
 ## 🙋🏻‍♂️ Pre-requisites
 - Docker Desktop
@@ -66,6 +67,15 @@ dbt snapshot -s snap_campaign_performance  # Run specific snapshot
 ### 📊 Test Categories & Execution
 
 See more on generic, singular, contracts and great expectations on this [README](dbt/tests/README.md)
+
+### Visualization & Documentation
+```sh
+# Generate and serve dbt documentation
+make dbt-docs       # Access at http://localhost:9000
+
+# Generate and serve column lineage visualization
+make dbt-colibri    # Access at http://localhost:8080
+```
 
 ### Query Data
 ```sh
@@ -132,6 +142,17 @@ ORDER BY dbt_valid_from;
 
 -- Safe division 
 {{ safe_divide('conversions.revenue', 'conversions.attributed_spend') }} as roas
+```
+
+### Column-level Lineage Visualization
+- **dbt-colibri integration** - Interactive column lineage dashboard
+- **Zero external dependencies** - Self-hosted static HTML visualization
+- **Complete data flow visibility** - Track how columns transform through staging → intermediate → marts
+- **Real-time updates** - Generated from latest dbt artifacts
+
+**Access the lineage dashboard:**
+```sh
+make dbt-colibri    # Generates lineage and serves at http://localhost:8080
 ```
 
 ### Historical Snapshots
